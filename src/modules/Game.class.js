@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 'use strict';
 
 /**
@@ -34,11 +35,13 @@ class Game {
     this.initialState = isValid
       ? initialState.map((row) => [...row])
       : [
-          [0, 0, 0, 0],
-          [0, 0, 0, 0],
-          [0, 0, 0, 0],
-          [0, 0, 0, 0],
-        ];
+        // eslint-disable-next-line prettier/prettier
+        [0, 0, 0, 0],
+        // eslint-disable-next-line prettier/prettier
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+      ];
 
     this.board = this.initialState.map((row) => [...row]);
 
@@ -93,15 +96,14 @@ class Game {
   }
 
   moveRight() {
+
     if (this.status !== 'playing') {
       return false;
     }
 
     const original = this.board.map((row) => [...row]);
 
-    const reversed = this.board.map((row) => [...row].reverse());
-
-    this.board = reversed;
+    this.board = this.board.map((row) => [...row].reverse());
 
     const moved = this.moveLeft();
 
@@ -113,7 +115,6 @@ class Game {
 
     return moved;
   }
-
   moveUp() {
     if (this.status !== 'playing') {
       return false;
@@ -290,43 +291,9 @@ class Game {
     return true;
   }
 
-  processBoard(board) {
-    let changed = false;
-    let totalScore = 0;
 
-    const newBoard = board.map((row) => {
-      const { newRow, scoreAdd } = this.moveLeftRow(row);
-
-      if (newRow.join('') !== row.join('')) {
-        changed = true;
-      }
-
-      totalScore += scoreAdd;
-
-      return newRow;
-    });
-
-    if (!changed) {
-      return false;
-    }
-
-    this.board = newBoard;
-    this.score += totalScore;
-
-    if (this.has2048()) {
-      this.status = 'win';
-
-      return true;
-    }
-
-    this.addRandomTile();
-
-    if (this.isGameOver()) {
-      this.status = 'lose';
-    }
-
-    return true;
-  }
 }
+
+
 
 module.exports = Game;
