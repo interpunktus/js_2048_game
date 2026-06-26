@@ -1,7 +1,10 @@
 'use strict';
 
 // Uncomment the next lines to use your game instance in the browser
-const Game = require('../modules/Game.class');
+'use strict';
+
+import Game from '../modules/Game.class.js';
+
 const game = new Game();
 
 const scoreElement = document.querySelector('.game-score');
@@ -28,15 +31,24 @@ function render() {
     }
   });
 
-  const gameStatus = game.getStatus();
+  const GameStatus = game.getStatus();
 
+  // сначала скрываем все
+  messageStart.classList.add('hidden');
   messageWin.classList.add('hidden');
   messageLose.classList.add('hidden');
 
-  if (gameStatus !== 'idle') {
-    messageStart.classList.add('hidden');
-  } else {
+  // показываем нужное состояние
+  if (GameStatus === 'idle') {
     messageStart.classList.remove('hidden');
+  }
+
+  if (GameStatus === 'win') {
+    messageWin.classList.remove('hidden');
+  }
+
+  if (GameStatus === 'lose') {
+    messageLose.classList.remove('hidden');
   }
 }
 
@@ -47,16 +59,12 @@ startButton.addEventListener('click', () => {
     startButton.textContent = 'Restart';
     startButton.classList.remove('start');
     startButton.classList.add('restart');
-
-    messageStart.classList.add('hidden');
   } else {
     game.restart();
 
     startButton.textContent = 'Start';
     startButton.classList.remove('restart');
     startButton.classList.add('start');
-
-    messageStart.classList.remove('hidden');
   }
 
   render();
